@@ -1,0 +1,91 @@
+<html>
+<head>
+<meta charset="utf8"/>
+<script type="text/javascript" src="tpl.js"></script>
+</head>
+<body>
+数据在本文件内
+<div class="users">
+	<script type="tpl" >
+			<table>
+				for(var i=0;i<users.length;i++){
+					var user = users[i];
+						<tr>
+    						<td>@user.name</td>
+    						<td>@{user.age}year</td>
+							<td>@user.sex</td>
+							<td>@user.email\@126.com
+						</tr>
+				}
+			<table>
+	</script>
+</div>
+
+<p></p>
+通过ajax获取数据<br>
+<script type="tpl" id="id" data-data-url='./users.js' data-tpl-url='./u.html?v'>
+
+</script>
+ 
+ 通过ajax2获取数据<br>
+<script type="tpl" data-data-url='./users.js' data-tpl-url='./u.html?v'>
+
+</script>
+ 
+ <script type="tpl">
+	!window对象属性
+	<ul>
+	for(var i in window){
+		<li class="@{i}">@i</li>
+	}
+	</ul>
+	for(var i=0;i<10;i++)
+		<img src="http://www.w3school.com.cn/i/eg_tulip.jpg?id=@i" width="@{i*30}" style="border:@{i}px solid #fff;"></img>
+ </script>
+ 
+<div id="result">
+
+</div>
+
+<script type="text/javascript">
+	var beg = new Date().getTime();
+    var users=[
+        {
+            name:'name',
+            age:12,
+            sex:'boy',
+            email:'nimei'
+        }, {
+            name:'name1',
+            age:12,
+            sex:'boy',
+            email:'nimei'
+        }
+    ];
+		
+    tpl.render(); //自动渲染整个网页中的<script type="tpl">模板
+
+	
+	 tpl.render([document.getElementById("id")],function(a){
+		//alert(a+'end');
+	}); //自动渲染整个网页中的<script type="tpl">模板
+	
+    var tplText= "<ul>\n"
+                +"for(var i=0;i<D;i++){\n"
+                + "<li>@i</li>\n"
+                +"}\n"
+                + "<ul>\n";
+                
+                
+	 /*
+    var func = tpl.func(tplText); //将模板编译成一个函数，模板里面通过tplData获取参数
+    var html = func(12);//调用模板函数，并传递参数12，在模板里面tplData就是12
+    document.getElementById('result').innerHTML=html; //将生成的html设置为网页
+    */
+	
+	var html = tpl.html(tplText,12);//直接传递模板，与参数获取html
+	document.getElementById('result').innerHTML=html;
+  document.write("时间："+ (new Date().getTime()-beg).toString() +"毫秒");
+</script>
+</body>
+</html>

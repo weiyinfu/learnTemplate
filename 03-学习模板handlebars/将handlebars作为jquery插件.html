@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<h1>使用../来引用上一级</h1>
+<div id="content">
+    {{#sons}}
+    My name is {{name}}，My father is {{../name}}<br>
+    {{#sons}}
+    My name is {{name}}，My father is {{../name}}<br>
+    {{/sons}}
+    {{/sons}}
+</div>
+</body>
+<script>
+    $.fn.handlebars = function (element, data) {
+        element.html(Handlebars.compile(element.html())(data))
+    };
+    $('#content').handlebars($('#content'), {
+        name: "爷爷",
+        sons: [{
+            name: '爸爸',
+            sons: [{name: '哥哥'},
+                {name: '我'},
+                {name: '弟弟'}]
+        }, {
+            name: '叔叔'
+        }]
+    });
+</script>
+</html>

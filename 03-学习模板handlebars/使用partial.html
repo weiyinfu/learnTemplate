@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<h1>似乎不支持引入啊？</h1>
+<div id="post">
+    {{> userMessage tagName="h1" }}
+
+    <h1>Comments</h1>
+
+    {{#each comments}}
+    {{> userMessage tagName="h2" }}
+    {{/each}}
+</div>
+</body>
+<script>
+    Handlebars.registerPartial('userMessage',
+        '<{{tagName}}>By {{author.firstName}} {{author.lastName}}</{{tagName}}>'
+        + '<div class="body">{{body}}</div>');
+    var context = {
+        author: {firstName: "Alan", lastName: "Johnson"},
+        body: "I Love Handlebars",
+        comments: [{
+            author: {firstName: "Yehuda", lastName: "Katz"},
+            body: "Me too!"
+        }]
+    };
+    var s = Handlebars.compile($("#post").html())(context)
+    console.log(s)
+    $("#post").html(s)
+</script>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/dust-full.min.js"></script>
+</head>
+<body>
+<div id="haha">hello,{name}</div>
+</body>
+<script>
+    var html = dust.compile($("#haha").html(), 'haha')
+    dust.loadSource(html)
+    //第一种渲染API
+    var s = dust.render('haha', {
+        name: 'wyf'
+    }, function (err, res) {
+        $("#haha").html(res)
+    })
+    //第二种渲染API
+    dust.stream("haha", {
+        name: 'wyf'
+    }).on("data", function (data) {
+        console.log("ondata")
+        console.log(data);
+    }).on("end", function (res) {
+        console.log("onend")
+        console.log("I'm finished!");
+    }).on("error", function (err) {
+        console.log("onerror")
+        console.log("Something terrible happened!");
+    });
+</script>
+</html>

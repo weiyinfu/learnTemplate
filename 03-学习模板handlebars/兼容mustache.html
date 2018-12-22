@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<h1>.和this总是等价的，可以使用each this或者each.</h1>
+<h3>在mustache中，当name为string，{{#name}}{{/name}}表示判断，而在handlebars中（name为string类型时），{{#name}}{{/name}}相当于列表</h3>
+<ul id="mylist">
+    {{#.}}
+    <li>{{#name}}
+        {{.}}
+        {{/name}}
+        {{^name}}
+        无名英雄
+        {{/name}}
+        是一个{{sexHandler sex}}
+    </li>
+    {{/.}}
+</ul>
+</body>
+<script>
+    Handlebars.registerHelper('sexHandler', function (sex) {
+        if (sex.indexOf("男") != -1) {
+            return "爷们"
+        } else if (sex.indexOf("女") != -1) {
+            return "娘们"
+        } else {
+            return "性别未知的人"
+        }
+    })
+    $("#mylist").html(Handlebars.compile($("#mylist").html())([
+        {name: '郭靖', sex: '男'},
+        {name: '黄蓉', sex: '女'},
+        {name: '杨过', sex: '男人'},
+        {name: '小龙女', sex: '女人'},
+        {name: '东方不败', sex: '你猜猜'},
+        {sex: '你猜猜'},
+    ]))
+</script>
+</html>

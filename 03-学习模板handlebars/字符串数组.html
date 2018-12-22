@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<h1>使用{{this}}或者{{.}}来表示引用自身</h1>
+<ul id="usrs">
+    {{#each this}}
+    <li>{{this}}</li>
+    {{/each}}
+</ul>
+</body>
+<script>
+    var template = Handlebars.compile($("#usrs").html())
+    $("#usrs").html(template([
+        "赵钱孙", "李周五", "郑王"
+    ]))
+</script>
+</html>

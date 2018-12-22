@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- To run the current sample code in your own environment, copy this to an html page. -->
+
+<html>
+<head>
+    <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+    <base href="//www.jsviews.com/samples/jsrender/helpers/" />
+    <script src="../../../download/jsrender.min.js"></script>
+
+    <link href="sample.css" rel="stylesheet">
+</head>
+<body>
+
+<script id="movieTemplate" type="text/x-jsrender">
+  <thead>
+    <tr>
+      <th>Title
+        <button id="formatBtn">
+          {{>~buttonCaption('case')}}
+        </button>
+      </th>
+      <th>
+        <button id="sortBtn">
+          {{>~buttonCaption('sort')}}
+        </button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{for #data}}
+      <tr>
+        <td>{{>~format(title)}}</td>
+        <td>
+          {{sort languages reverse=~reverseSort}}
+            <div><b>{{>name}}</b></div>
+          {{/sort}}
+        </td>
+      </tr>
+    {{/for}}
+  </tbody>
+</script>
+
+<table id="movieList"></table>
+
+<script>
+    "use strict";
+    $.views.tags({
+
+        // Tag to reverse-sort an array
+        sort: function(array) {
+            var ret = "";
+            if (this.tagCtx.props.reverse) {
+                // Render in reverse order
+                for (var i = array.length; i; i--) {
+                    ret += this.tagCtx.render(array[i - 1]);
+                }
+            } else {
+                // Render in original order
+                ret += this.tagCtx.render(array);
+            }
+            return ret;
+        }
+
+    });
+
+    var reverse = false,
+        upperCase = false,
+        movies = [
+            {
+                title: "Meet Joe Black",
+                languages: [
+                    {name: "English"},
+                    {name: "French"}
+                ]
+            },
+            {
+                title: "Eyes Wide Shut",
+                languages: [
+                    {name: "French"},
+                    {name: "German"},
+                    {name: "Spanish"}
+                ]
+            }
+        ];
+
+    function myFormatFunction(value) {
+        return upperCase ? value.toUpperCase() : value.toLowerCase();
+    }
+
+    $("#movieList")
+        .on("click", "#sortBtn", function() {
+            reverse = !reverse;
+            renderList();
+        })
+        .on("click", "#formatBtn", function() {
+            upperCase = !upperCase;
+            renderList();
+        });
+
+    function renderList() {
+        var html = $("#movieTemplate").render(
+            // Wrap movies array in an array, to render as a layout with header and footer
+            [movies],
+            // pass in helpers
+            {
+                reverseSort: reverse,
+                format: myFormatFunction,
+                buttonCaption: function(val) {
+                    if (val === 'sort') {
+                        return reverse ? "Sort increasing" : "Sort decreasing";
+                    }
+                    return upperCase ? "to lower" : "to upper";
+                }
+            }
+        );
+
+        $("#movieList").html(html);
+    }
+    renderList();
+
+</script>
+
+</body>
+</html>

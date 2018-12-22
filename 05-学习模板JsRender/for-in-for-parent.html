@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>嵌套循环使用#parent访问父级数据 --- by 杨元</title>
+  </head>
+  <body>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th width="10%">序号</th>
+            <th width="10%">姓名</th>
+            <th width="80%">家庭成员</th>
+          </tr>
+        </thead>
+        <tbody id="list">
+          
+        </tbody>
+      </table>
+    </div>
+    
+    <script src="jquery.min.js"></script>
+    <script src="jsviews.js"></script>
+    
+    <!-- 定义JsRender模版 -->
+    <script id="testTmpl" type="text/x-jsrender">
+      <tr>
+        <td>{{:#index + 1}}</td>
+        <td>{{:name}}</td>
+        <td>
+          {{for family}}
+            {{!-- 利用#parent访问父级index --}}
+            <b>{{:#parent.parent.index + 1}}.{{:#index + 1}}</b>
+            {{!-- 利用#parent访问父级数据，父级数据保存在data属性中 --}}
+            {{!-- #data相当于this --}}
+            {{:#parent.parent.data.name}}的{{:#data}}
+          {{/for}}
+        </td>
+      </tr>
+    </script>
+    
+    <script>
+      //数据源
+      var dataSrouce = [{
+        name: "张三",
+        family: [
+          "爸爸",
+          "妈妈",
+          "哥哥"
+        ]
+      },{
+        name: "李四",
+        family: [
+          "爷爷",
+          "奶奶",
+          "叔叔"
+        ]
+      }];
+      
+      //渲染数据
+      var html = $("#testTmpl").render(dataSrouce);
+      $("#list").append(html);
+      
+      
+    </script>
+    
+  </body>
+</html>

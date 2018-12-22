@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/dust-full.min.js"></script>
+</head>
+<body>
+<div id="mydiv">
+    {#.}
+    <dt>{name}</dt>
+    <dd>{#friends}
+        {.}
+        {:else}
+        硕大无朋
+        {/friends}
+    </dd>
+    {/.}
+</div>
+</body>
+<script>
+    var html = dust.compile($("#mydiv").html(), 'haha')
+    dust.loadSource(html)
+    dust.render('haha', [{
+        name: 'wyf',
+        friends: ['赵钱孙', '李周五']
+    }, {name: '郑王'}
+    ], function (err, res) {
+        console.log(res)
+        $("#mydiv").html(res)
+    })
+</script>
+</html>

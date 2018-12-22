@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<h1>.和this总是等价的，可以使用each this或者each.</h1>
+<table>
+    <tr>
+        <th>mustache</th>
+        <th>handlebars</th>
+    </tr>
+    <tr>
+        <th>{{#condition}}</th>
+        <th>{{#if condition}}</th>
+    </tr>
+    <tr>
+        <th>{{^condition}}</th>
+        <th>{{#unless condition}}</th>
+    </tr>
+
+</table>
+</p>
+<ul id="mylist">
+    {{#each .}}
+    <li>{{#if name}} {{name}}{{else}}无名英雄{{/if}}是一个{{sexHandler sex}}，{{personHandler}}
+        {{! 加点注释吧！}}
+    </li>
+    {{/each}}
+</ul>
+</body>
+<script>
+    Handlebars.registerHelper('sexHandler', function (sex) {
+        if (sex.indexOf("男") != -1) {
+            return "爷们"
+        } else if (sex.indexOf("女") != -1) {
+            return "娘们"
+        } else {
+            return "性别未知的人"
+        }
+    })
+    Handlebars.registerHelper('personHandler', function () {
+        //默认参数为this
+        return "My name is " + this.name
+    })
+    $("#mylist").html(Handlebars.compile($("#mylist").html())([
+        {name: '郭靖', sex: '男'},
+        {name: '黄蓉', sex: '女'},
+        {name: '杨过', sex: '男人'},
+        {name: '小龙女', sex: '女人'},
+        {name: '东方不败', sex: '你猜猜'},
+        {sex: '你猜猜'},
+    ]))
+</script>
+</html>

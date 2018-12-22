@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<div id="haha">
+    参加此次大会的有
+    {{#.}}
+    {{#unless @first}},{{/unless}}
+    {{.}}
+    {{#@last}}。{{/@last}}
+    {{/.}}
+
+    <h2>{{one}},{{two}}</h2>
+
+    {{{button "blackButton" "blackButton的文本" color="black" click="fuck()"}}}
+    {{{button "redButton" "redButton的文本" color="red" click="fuck()"}}}
+
+
+    {{!--
+    这里是一个多行评论
+    --}}
+</div>
+<script>
+    Handlebars.registerHelper({
+        one: function () {
+            return "天下大势"
+        },
+        two: function () {
+            return "为我所控"
+        },
+        button: function (buttonId, buttonText, buttonHash) {
+            return "<button id='" + buttonId + "' style='color:white;background: "
+                + buttonHash.hash.color + "' onclick='" + buttonHash.hash.click
+                + "'>" +
+                buttonText
+            "</button>"
+        }
+    })
+
+    function fuck() {
+        alert("why do you click me ?")
+    }
+
+    $("#haha").html(Handlebars.compile($("#haha").html())([
+        '毛泽东', '周恩来', '刘少奇', '朱德', '邓小平'
+    ]))
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script/jquery.js"></script>
+    <script src="script/handlebars-v4.0.2.js"></script>
+</head>
+<body>
+<div id="haha">
+    {{#list people}}{{firstName}} {{lastName}}{{/list}}
+
+</div>
+</body>
+<script>
+    Handlebars.registerHelper('list', function (items, options) {
+        console.log("items")
+        console.log(items)
+        console.log("options")
+        console.log(options)
+        var out = "<ul>";
+
+        for (var i = 0, l = items.length; i < l; i++) {
+            out = out + "<li>" + options.fn(items[i]) + "</li>";
+        }
+
+        return out + "</ul>";
+    })
+    $("#haha").html(Handlebars.compile($("#haha").html())(
+        {
+            people: [
+                {firstName: "Yehuda", lastName: "Katz"},
+                {firstName: "Carl", lastName: "Lerche"},
+                {firstName: "Alan", lastName: "Johnson"}
+            ]
+        }
+    ))
+</script>
+</html>

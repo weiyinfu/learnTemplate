@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/dust-full.min.js"></script>
+</head>
+<body>
+<div id="mydiv">
+    <dl>
+        <dt>original string</dt>
+        <dd>{btn}</dd>
+        <dt>don't escape</dt>
+        <dd> here is a {btn|s},</dd>
+        <dt>encodeURI</dt>
+        <dd>{btn|u}</dd>
+        <dt>don't escape | encodeURI</dt>
+        <dd>{btn|u|s}</dd>
+        <dt>js escape</dt>
+        <dd>{btn|j}}</dd>
+    </dl>
+</div>
+</body>
+<script>
+    var html = dust.compile($("#mydiv").html(), 'haha')
+    dust.loadSource(html)
+    dust.render('haha', {
+        btn: "<span style='color:red'>wyf</span>"
+    }, function (err, res) {
+        console.log(res)
+        $("#mydiv").html(res)
+    })
+</script>
+</html>
